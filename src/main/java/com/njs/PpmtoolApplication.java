@@ -1,4 +1,4 @@
-package com.njs.ppmtool;
+package com.njs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
