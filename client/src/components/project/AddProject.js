@@ -18,6 +18,7 @@ class AddProject extends Component {
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
   }
 
@@ -95,7 +96,8 @@ class AddProject extends Component {
                     placeholder="Project Description"
                     value={this.state.desc}
                     name="desc"
-                    onChange={this.onChange}></textarea>
+                    onChange={this.onChange}>
+                    </textarea>
                   {errors.desc && (
                     <div className="invalid-feedback">{errors.desc}
                     </div>
