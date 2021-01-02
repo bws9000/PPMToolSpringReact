@@ -6,7 +6,7 @@ import classnames from 'classnames';
 
 
 class UpdateProject extends Component {
-
+    
     constructor() {
         super();
         this.state = {};
@@ -52,7 +52,10 @@ class UpdateProject extends Component {
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
-        console.log('STATE: ' + JSON.stringify(this.state));
+        this.props.project[e.target.name] = e.target.value;
+        if (this.props.errors[e.target.name] !== undefined){
+            this.props.errors[e.target.name] = '';
+        }
     }
 
     onSubmit(e) {
@@ -71,6 +74,7 @@ class UpdateProject extends Component {
     }
 
     render() {
+
         const { errors } = this.state;
         return (
             <div className="project">
@@ -88,7 +92,8 @@ class UpdateProject extends Component {
                                         })}
                                         placeholder="Project Name"
                                         name="projectName"
-                                        value={this.state.projectName || ''}
+                                        //value={this.state.projectName || ''}
+                                        value={this.props.project.projectName || ''}
                                         onChange={this.onChange}
                                     />
                                     {errors.projectName && (
@@ -104,7 +109,8 @@ class UpdateProject extends Component {
                                         })}
                                         placeholder="Unique Project ID"
                                         name="projectIdentifier"
-                                        value={this.state.projectIdentifier || ''}
+                                        //value={this.state.projectIdentifier || ''}
+                                        value={this.props.project.projectIdentifier || '' }
                                         onChange={this.onChange}
                                         disabled />
                                     {errors.projectIdentifier && (
@@ -119,7 +125,8 @@ class UpdateProject extends Component {
                                         })}
                                         placeholder="Project Description"
                                         name="desc"
-                                        value={this.state.desc || ''}
+                                        //value={this.state.desc || ''}
+                                        value={this.props.project.desc || ''}
                                         onChange={this.onChange}
                                     ></textarea>
                                     {errors.desc && (
@@ -133,7 +140,8 @@ class UpdateProject extends Component {
                                         type="date"
                                         className="form-control form-control-lg"
                                         name="startDate"
-                                        value={this.state.startDate || ''}
+                                        //value={this.state.startDate || ''}
+                                        value={this.props.project.startDate || ''}
                                         onChange={this.onChange}
                                     />
                                 </div>
@@ -143,7 +151,8 @@ class UpdateProject extends Component {
                                         type="date"
                                         className="form-control form-control-lg"
                                         name="endDate"
-                                        value={this.state.endDate || ''}
+                                        //value={this.state.endDate || ''}
+                                        value={this.props.project.endDate || ''}
                                         onChange={this.onChange}
                                     />
                                 </div>
@@ -155,6 +164,7 @@ class UpdateProject extends Component {
                 </div>
             </div>
         )
+        this.state.errors = {};
     }
 }
 

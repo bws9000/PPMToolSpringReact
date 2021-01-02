@@ -22,15 +22,28 @@ class AddProject extends Component {
 
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps){
-    if(nextProps.errors){
-      this.setState({errors:nextProps.errors});
+  // UNSAFE_componentWillReceiveProps(nextProps){
+  //   if(nextProps.errors){
+  //     this.setState({errors:nextProps.errors});
+  //   }
+  // }
+
+  static getDerivedStateFromProps(props, state) {
+    let errors = {};
+    if (JSON.stringify(props.errors) !== '{}') {
+      errors = props.errors;
+      return({errors});
     }
+    return null;
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
+    this.setState({ [e.target.name]: e.target.value });
+    if (this.state.errors[e.target.name] !== undefined) {
+      this.state.errors[e.target.name] = '';
+    }
   }
+
   onSubmit(e) {
     e.preventDefault();
     const newProject = {
@@ -41,7 +54,6 @@ class AddProject extends Component {
       endDate: this.state.endDate
     }
     this.props.createProject(newProject, this.props.history);
-    console.log(newProject);
   }
 
   render() {
@@ -134,16 +146,13 @@ class AddProject extends Component {
   }
 }
 
-
-
 AddProject.protoTypes = {
   createProject: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired
 }
 
-// const mapStateToProps = state => ({
-//   errors: state.errors
-// })
+const mapStateToProps = state => ({
+  errors: state.errors
+})
 
-//export default connect(mapStateToProps,{ createProject })(AddProject);
-export default connect(null, { createProject })(AddProject);
+export default connect(mapStateToProps,{ createProject })(AddProject);
