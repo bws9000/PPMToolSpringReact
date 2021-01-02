@@ -9,41 +9,40 @@ class UpdateProject extends Component {
 
     constructor() {
         super();
-        this.state = {
-            "id": "",
-            "projectName": "",
-            "projectIdentifier": "",
-            "desc": "",
-            "startDate": "",
-            "endDate": "",
-            errors:{}
-        }
-
+        this.state = {};
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.errors) {
-            this.setState({ errors: nextProps.errors });
-        }
-        const {
-            id,
-            projectName,
-            projectIdentifier,
-            desc,
-            startDate,
-            endDate
-        } = nextProps.project;
+    // UNSAFE_componentWillReceiveProps(nextProps) {
+    //     if (nextProps.errors) {
+    //         this.setState({ errors: nextProps.errors });
+    //     }
+    // }
 
-        this.setState({
+    static getDerivedStateFromProps(props, state) {
+
+        let errors = {};
+
+        if (JSON.stringify(props.errors) !== '{}') {
+            errors = props.errors;
+        }
+
+        let {
             id,
             projectName,
             projectIdentifier,
             desc,
             startDate,
             endDate
-        })
+        } = props.project;
+
+        if (state.projectName !== props.projectName) projectName = state.projectName;
+        if (state.projectIdentifier !== props.projectIdentifier) desc = state.desc;
+        if (state.startDate !== props.startDate) startDate = state.startDate;
+        if (state.endDate !== props.endDate) endDate = state.endDate;
+
+        return ({ id, projectName, projectIdentifier, desc, startDate, endDate, errors });
     }
 
     componentDidMount() {
@@ -53,6 +52,7 @@ class UpdateProject extends Component {
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
+        console.log('STATE: ' + JSON.stringify(this.state));
     }
 
     onSubmit(e) {
@@ -63,15 +63,15 @@ class UpdateProject extends Component {
             projectName: this.state.projectName,
             projectIdentifier: this.state.projectIdentifier,
             desc: this.state.desc,
-            startDate: this.state.starDate,
-            endDate: this.state.endDate
+            start_date: this.state.startDate,
+            end_date: this.state.endDate
         };
 
         this.props.createProject(updateProject, this.props.history);
     }
 
     render() {
-        const {errors} = this.state;
+        const { errors } = this.state;
         return (
             <div className="project">
                 <div className="container">
@@ -88,7 +88,7 @@ class UpdateProject extends Component {
                                         })}
                                         placeholder="Project Name"
                                         name="projectName"
-                                        value={this.state.projectName}
+                                        value={this.state.projectName || ''}
                                         onChange={this.onChange}
                                     />
                                     {errors.projectName && (
@@ -104,7 +104,8 @@ class UpdateProject extends Component {
                                         })}
                                         placeholder="Unique Project ID"
                                         name="projectIdentifier"
-                                        value={this.state.projectIdentifier}
+                                        value={this.state.projectIdentifier || ''}
+                                        onChange={this.onChange}
                                         disabled />
                                     {errors.projectIdentifier && (
                                         <div className="invalid-feedback">{errors.projectIdentifier}
@@ -118,7 +119,7 @@ class UpdateProject extends Component {
                                         })}
                                         placeholder="Project Description"
                                         name="desc"
-                                        value={this.state.desc}
+                                        value={this.state.desc || ''}
                                         onChange={this.onChange}
                                     ></textarea>
                                     {errors.desc && (
@@ -132,8 +133,9 @@ class UpdateProject extends Component {
                                         type="date"
                                         className="form-control form-control-lg"
                                         name="startDate"
-                                        value={this.state.startDate}
-                                        onChange={this.onChange} />
+                                        value={this.state.startDate || ''}
+                                        onChange={this.onChange}
+                                    />
                                 </div>
                                 <h6>Estimated End Date</h6>
                                 <div className="form-group">
@@ -141,8 +143,9 @@ class UpdateProject extends Component {
                                         type="date"
                                         className="form-control form-control-lg"
                                         name="endDate"
-                                        value={this.state.endDate}
-                                        onChange={this.onChange} />
+                                        value={this.state.endDate || ''}
+                                        onChange={this.onChange}
+                                    />
                                 </div>
 
                                 <input type="submit" className="btn btn-primary btn-block mt-4" />

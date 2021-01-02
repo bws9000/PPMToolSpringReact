@@ -5,7 +5,7 @@ const preloadedState = {
     project: {}
 }
 
-export default function(state = preloadedState, action){
+export default function getProjectReducer(state = preloadedState, action){
     switch(action.type){
         case GET_PROJECTS:
             return {
