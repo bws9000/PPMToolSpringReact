@@ -1,4 +1,4 @@
-import {GET_PROJECTS, GET_PROJECT} from '../actions/types';
+import {GET_PROJECTS, GET_PROJECT, GET_DELETE} from '../actions/types';
 
 const preloadedState = {
     projects: [],
@@ -16,6 +16,13 @@ export default function getProjectReducer(state = preloadedState, action){
             return {
                 ...state,
                 project: action.payload
+            }
+        case GET_DELETE:
+            return {
+                ...state,
+                projects: state.projects.filter(
+                    project => project.projectIdentifier !== action.payload
+                )
             }
         default:
             return state;
