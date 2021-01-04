@@ -14,23 +14,36 @@ class AddProject extends Component {
       desc: "",
       startDate: "",
       endDate: "",
-      errors:{}
+      errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
   }
 
-  componentDidMount() {}
-  UNSAFE_componentWillReceiveProps(nextProps){
-    if(nextProps.errors){
-      this.setState({errors:nextProps.errors});
+  // UNSAFE_componentWillReceiveProps(nextProps){
+  //   if(nextProps.errors){
+  //     this.setState({errors:nextProps.errors});
+  //   }
+  // }
+
+  static getDerivedStateFromProps(props, state) {
+    let errors = {};
+    if (JSON.stringify(props.errors) !== '{}') {
+      errors = props.errors;
+      return({errors});
     }
+    return null;
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
+    this.setState({ [e.target.name]: e.target.value });
+    if (this.state.errors[e.target.name] !== undefined) {
+      this.state.errors[e.target.name] = '';
+    }
   }
+
   onSubmit(e) {
     e.preventDefault();
     const newProject = {
@@ -40,12 +53,11 @@ class AddProject extends Component {
       startDate: this.state.startDate,
       endDate: this.state.endDate
     }
-    this.props.createProject(newProject,this.props.history);
-    console.log(newProject);
+    this.props.createProject(newProject, this.props.history);
   }
 
   render() {
-    const {errors} = this.state;
+    const { errors } = this.state;
     return (
       <div className="project">
         <div className="container">
@@ -56,10 +68,10 @@ class AddProject extends Component {
               <form onSubmit={this.onSubmit.bind(this)}>
 
                 <div className="form-group">
-                  <input 
-                    type="text" 
-                    className={classnames("form-control form-control-lg",{
-                      "is-invalid":errors.projectName
+                  <input
+                    type="text"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.projectName
                     })}
                     placeholder="Project Name" name="projectName"
                     value={this.state.projectName}
@@ -72,9 +84,9 @@ class AddProject extends Component {
                 </div>
 
                 <div className="form-group">
-                  <input 
-                    type="text" 
-                    className={classnames("form-control form-control-lg",{
+                  <input
+                    type="text"
+                    className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.projectIdentifier
                     })}
                     placeholder="Unique Project ID" name="projectIdentifier"
@@ -88,14 +100,15 @@ class AddProject extends Component {
                 </div>
 
                 <div className="form-group">
-                  <textarea 
-                    className={classnames("form-control form-control-lg",{
+                  <textarea
+                    className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.desc
                     })}
                     placeholder="Project Description"
                     value={this.state.desc}
                     name="desc"
-                    onChange={this.onChange}></textarea>
+                    onChange={this.onChange}>
+                  </textarea>
                   {errors.desc && (
                     <div className="invalid-feedback">{errors.desc}
                     </div>
@@ -104,8 +117,8 @@ class AddProject extends Component {
 
                 <h6>Start Date</h6>
                 <div className="form-group">
-                  <input 
-                    type="date" 
+                  <input
+                    type="date"
                     className="form-control form-control-lg"
                     name="startDate"
                     value={this.state.startDate}
@@ -114,8 +127,8 @@ class AddProject extends Component {
 
                 <h6>Estimated End Date</h6>
                 <div className="form-group">
-                  <input 
-                    type="date" 
+                  <input
+                    type="date"
                     className="form-control form-control-lg"
                     name="endDate"
                     value={this.state.endDate}
@@ -133,11 +146,9 @@ class AddProject extends Component {
   }
 }
 
-
-
 AddProject.protoTypes = {
-  createProject:PropTypes.func.isRequired,
-  errors:PropTypes.object.isRequired
+  createProject: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
