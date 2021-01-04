@@ -66,8 +66,8 @@ class UpdateProject extends Component {
             projectName: this.state.projectName,
             projectIdentifier: this.state.projectIdentifier,
             desc: this.state.desc,
-            start_date: this.state.startDate,
-            end_date: this.state.endDate
+            startDate: this.state.startDate,
+            endDate: this.state.endDate
         };
 
         this.props.createProject(updateProject, this.props.history);
@@ -92,7 +92,6 @@ class UpdateProject extends Component {
                                         })}
                                         placeholder="Project Name"
                                         name="projectName"
-                                        //value={this.state.projectName || ''}
                                         value={this.props.project.projectName || ''}
                                         onChange={this.onChange}
                                     />
@@ -109,7 +108,6 @@ class UpdateProject extends Component {
                                         })}
                                         placeholder="Unique Project ID"
                                         name="projectIdentifier"
-                                        //value={this.state.projectIdentifier || ''}
                                         value={this.props.project.projectIdentifier || '' }
                                         onChange={this.onChange}
                                         disabled />
@@ -125,7 +123,6 @@ class UpdateProject extends Component {
                                         })}
                                         placeholder="Project Description"
                                         name="desc"
-                                        //value={this.state.desc || ''}
                                         value={this.props.project.desc || ''}
                                         onChange={this.onChange}
                                     ></textarea>
@@ -140,7 +137,6 @@ class UpdateProject extends Component {
                                         type="date"
                                         className="form-control form-control-lg"
                                         name="startDate"
-                                        //value={this.state.startDate || ''}
                                         value={this.props.project.startDate || ''}
                                         onChange={this.onChange}
                                     />
@@ -151,7 +147,6 @@ class UpdateProject extends Component {
                                         type="date"
                                         className="form-control form-control-lg"
                                         name="endDate"
-                                        //value={this.state.endDate || ''}
                                         value={this.props.project.endDate || ''}
                                         onChange={this.onChange}
                                     />
